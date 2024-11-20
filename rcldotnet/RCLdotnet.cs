@@ -1201,6 +1201,11 @@ namespace ROS2
             {
                 WaitSetClear(waitSetHandle);
 
+                foreach (var timer in node.Timers)
+                {
+                    WaitSetAddTimer(waitSetHandle, timer.Handle);
+                }
+
                 foreach (Subscription subscription in node.Subscriptions)
                 {
                     WaitSetAddSubscription(waitSetHandle, subscription.Handle);
@@ -1229,11 +1234,6 @@ namespace ROS2
                 foreach (var actionServer in node.ActionServers)
                 {
                     WaitSetAddActionServer(waitSetHandle, actionServer.Handle);
-                }
-
-                foreach (var timer in node.Timers)
-                {
-                    WaitSetAddTimer(waitSetHandle, timer.Handle);
                 }
 
                 bool ready = Wait(waitSetHandle, timeout);
